@@ -32,7 +32,7 @@
 
 Склонировать репозиторий
 
-    git clone git@github.com:Alfaram/api_yamdb.git
+    git clone git@github.com:lanazzk/api_yamdb.git
 
 Создать и активировать виртуальное окружение
     
