@@ -20,10 +20,6 @@
 - Django Rest Framework
 - Simple-JWT
 - PostreSQL
-- Nginx
-- Gunicorn
-- Docker
-- GitHub Actions (CI/CD)
 
 ### Документация к сервису находится по адресу (после установки и запуска):
 `http://127.0.0.1:8000/redoc/`
@@ -63,10 +59,20 @@
     python manage.py runserver
 
 ### Примеры запросов/ответов:
+#### Регистрация нового пользователя:
+Получить код подтверждения на переданный email.Поля email и username должны быть уникальными.
+
+POST /auth/signup/
+```json
+{
+  "email": "string",
+  "username": "string"
+}
 
 #### Запрос на получение токена авторизации:
-
-```json
+Получение JWT-токена в обмен на username и confirmation code.
+```
+POST auth/token/
 {
   "username": "Ваш логин",
   "confirmation_code": "Код подтверждения"
@@ -79,12 +85,61 @@
   "token": "Токен для авторизации на сервисе"
 }
 ```
+#### Работа с API для пользователей:
+Создать категорию.
+```
+Права доступа: Администратор. Поле slug каждой категории должно быть уникальным.
+POST /categories/
+json
+{
+  "name": "string",
+  "slug": "string"
+}
+```
+Удалить категорию.
+```
+Права доступа: Администратор.
+DELETE /categories/{slug}
+```
+Получение списка всех произведений.
+```
+Права доступа: Доступно без токена
+GET /titles/
+[
+  {
+    "count": 0,
+    "next": "string",
+    "previous": "string",
+    "results": [
+      {
+        "id": 0,
+        "name": "string",
+        "year": 0,
+        "rating": 0,
+        "description": "string",
+        "genre": [
+          {
+            "name": "string",
+            "slug": "string"
+          }
+        ],
+        "category": {
+          "name": "string",
+          "slug": "string"
+        }
+      }
+    ]
+  }
+]
+```
+Полный список можно посмотреть в документации.
+`http://127.0.0.1:8000/redoc/`
 
 #### Contributors:
 
 [Виталий](https://github.com/vkoolko) - система аутентификации, авторизации, управление доступом пользователей. 
 
-[Светлана](https://github.com/lanazzk) - категории (Categories), жанры (Genres) и произведения (Titles): модели, представления и эндпойнты для них, определяет права доступа для запросов. рейтинги произведений.
+[Светлана](https://github.com/lanazzk) - категории (Categories), жанры (Genres) и произведения (Titles): модели, представления и эндпойнты для них, определяет права доступа для запросов. 
 
 [Максим](https://github.com/Alfaram) - отзывы (Review) и комментарии (Comments):  модели, представления, настраивает эндпойнты, определяет права доступа для запросов. рейтинги произведений.
 
